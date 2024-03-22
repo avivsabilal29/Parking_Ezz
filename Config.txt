@@ -1,0 +1,43 @@
+bagaimana cara mengizinkan driver bisa di akses di semua root di linux
+
+
+
+
+Untuk mengizinkan akses driver kepada semua pengguna di Linux, Anda dapat menggunakan aturan udev atau mengatur izin file secara langsung. Berikut adalah langkah-langkah untuk melakukan keduanya:
+
+### Menggunakan aturan udev:
+
+1. Buat berkas aturan baru dalam direktori `/etc/udev/rules.d/`. Misalnya, `99-my-custom.rules`.
+
+2. Tambahkan aturan udev yang sesuai dengan perangkat atau driver Anda. Misalnya, jika Anda ingin memberikan izin untuk perangkat `/dev/ttyUSB0`, atur izin dengan menambahkan baris berikut ke dalam berkas aturan yang Anda buat:
+
+   ```
+   KERNEL=="ttyUSB0", MODE="0666"
+   ```
+
+   Atau jika Anda ingin memberikan izin untuk perangkat sound card, misalnya `/dev/snd/*`, Anda dapat menggunakan:
+
+   ```
+   KERNEL=="snd", MODE="0666"
+   ```
+
+3. Simpan perubahan dan restart servis udev:
+
+   ```
+   sudo udevadm control --reload-rules
+   sudo udevadm trigger
+   ```
+
+### Mengatur izin file secara langsung:
+
+1. Temukan perangkat yang ingin Anda berikan akses. Misalnya, `/dev/ttyUSB0`.
+
+2. Ubah izin file menggunakan perintah `chmod`. Misalnya:
+
+   ```
+   sudo chmod 666 /dev/ttyUSB0
+   ```
+
+   Ini akan memberikan izin baca dan tulis kepada semua pengguna.
+
+Pastikan Anda memilih opsi yang sesuai dengan kebutuhan Anda dan pertimbangkan keamanan serta kebutuhan akses yang diperlukan oleh aplikasi atau pengguna tertentu sebelum memberikan izin akses ke driver.
